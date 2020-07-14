@@ -45,7 +45,10 @@ Use these attributes to control the animation. All these attributes are optional
 | `data-animate-from-top=""` | the starting value for `top` property. | `data-animate-to-top=""` | the final value for `top` property. |
 | `data-animate-from-bottom=""` | the starting value for `bottom` property. | `data-animate-to-bottom=""` | the final value for `bottom` property. |
 | `data-animate-from-opacity=""` | the starting value for `opacity` property. | `data-animate-to-opacity=""` | the final value for `opacity` property. |
+| `data-animate-from-border-radius=""` | the starting value for `border-radius` property. | `data-animate-to-border-radius=""` | the final value for `border-radius` property. |
 | `data-animate-from-rotate=""` | the starting value for `transform:rotate()` property. | `data-animate-to-rotate=""` | the final value for `transform:rotate()` property. |
 | `data-animate-from-scale=""` | the starting value for `transform:scale()` property. | `data-animate-to-scale=""` | the final value for `transform:scale()` property. |
+| `data-animate-from-scalex=""` | the starting value for `transform:scalex()` property. | `data-animate-to-scalex=""` | the final value for `transform:scalex()` property. |
+| `data-animate-from-scaley=""` | the starting value for `transform:scaley()` property. | `data-animate-to-scaley=""` | the final value for `transform:scaley()` property. |
 
 [ChalanaN]: <https://chalanan.tk>
