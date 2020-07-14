@@ -14,7 +14,7 @@ Add scrollAnimation.js to your project by adding this script tag to the end of y
 
 ## How to use?
 
-Tsage of scrollAnimation.js is very simple. It's usage is different depending on what benifit you get from this.
+Usage of scrollAnimation.js is very simple. It's usage is different depending on what benifit you get from this.
 
 ### Usage for adding the `after` class to an element
 
@@ -33,6 +33,19 @@ To use scrollAnimate.js complied with page scroll add the class of `scrollAnimat
 
 | Attribute | Description |
 | ------ | ------ |
-| `data-animate-from=""` | Required. Specifies at what point the animation needs to start. The values are `top-the value from the top of view`, `center-the value from the center of view` and `bottom-the value from the bottom of view` |
+| `data-animate-from=""` | Required. Specifies at what point the animation needs to start. The values are `top-[the value from the top of view]`, `center-[the value from the center of view]` and `bottom-[the value from the bottom of view]` |
+| `data-animate-to=""` | Required. Specifies at what point the animation needs to end. The values are `top-[the value from the top of view]`, `center-[the value from the center of view]` and `bottom-[the value from the bottom of view]` |
+
+Use these attributes to control the animation. All these attributes are optional. **Remember that you need to add two attribiutes to animate the element. One is for the starting value and other is for the ending value**.
+
+| Attribute | Description | Attribute | Description |
+| ------ | ------ | ------ | ------ |
+| `data-animate-from-left=""` | the starting value for `left` property. | `data-animate-to-left=""` | the final value for `left` property. |
+| `data-animate-from-right=""` | the starting value for `right` property. | `data-animate-to-right=""` | the final value for `right` property. |
+| `data-animate-from-top=""` | the starting value for `top` property. | `data-animate-to-top=""` | the final value for `top` property. |
+| `data-animate-from-bottom=""` | the starting value for `bottom` property. | `data-animate-to-bottom=""` | the final value for `bottom` property. |
+| `data-animate-from-opacity=""` | the starting value for `opacity` property. | `data-animate-to-opacity=""` | the final value for `opacity` property. |
+| `data-animate-from-rotate=""` | the starting value for `transform:rotate()` property. | `data-animate-to-rotate=""` | the final value for `transform:rotate()` property. |
+| `data-animate-from-scale=""` | the starting value for `transform:scale()` property. | `data-animate-to-scale=""` | the final value for `transform:scale()` property. |
 
 [ChalanaN]: <https://chalanan.tk>
