@@ -34,13 +34,13 @@
                     scroll = window.innerHeight;
                 }
     
-                let numP = scroll + '-' + scrollN;
-                let numM = scroll + '+' + scrollN;
+                let numP = scroll + '+' + scrollN;
+                let numM = scroll + '-' + scrollN;
                 let numP1 = scroll1 + '+' + scrollN;
                 let numM1 = scroll2 + '-' + scrollN;
     
                 if (scrollN != null) {
-                    if (scroll == 'bottom') {
+                    if (scroll == window.innerHeight) {
                         scroll = eval(numM);
                     } else if (scroll == 'view') {
                         scroll1 = eval(numP1);
@@ -54,14 +54,18 @@
     
                 if (scroll == 'view') {
                     if (fin >= scroll1 && fin <= scroll2) {
-                        animate[i].style.transition = time;
+                        if (time != "no") {
+                            animate[i].style.transition = time;
+                        }
                         animate[i].classList.add('after');
                     } else if (repeat == "yes") {
                         animate[i].classList.remove('after');
                     }
                 } else {
                     if (fin <= scroll) {
-                        animate[i].style.transition = time;
+                        if (time != "no") {
+                            animate[i].style.transition = time;
+                        }
                         animate[i].classList.add('after');
                     } else if (repeat == "yes") {
                         animate[i].classList.remove('after');
@@ -85,8 +89,12 @@
                 var topFrom = elem.getAttribute("data-animate-from-top");
                 var bottomFrom = elem.getAttribute("data-animate-from-bottom");
                 var opacityFrom = elem.getAttribute("data-animate-from-opacity");
+                var borderRadiusFrom = elem.getAttribute("data-animate-from-border-radius");
+                // The transform property --- >>>
                 var rotateFrom = elem.getAttribute("data-animate-from-rotate");
                 var scaleFrom = elem.getAttribute("data-animate-from-scale");
+                var scaleXFrom = elem.getAttribute("data-animate-from-scalex");
+                var scaleYFrom = elem.getAttribute("data-animate-from-scaleY");
     
                 if (leftFrom != null && leftFrom.includes("%")) {
                     leftFrom = leftFrom.replace("%", "");
@@ -110,8 +118,12 @@
                 var topTo = elem.getAttribute("data-animate-to-top");
                 var bottomTo = elem.getAttribute("data-animate-to-bottom");
                 var opacityTo = elem.getAttribute("data-animate-to-opacity");
+                var borderRadiusTo = elem.getAttribute("data-animate-to-border-radius");
+                // The transform property --- >>>
                 var rotateTo = elem.getAttribute("data-animate-to-rotate");
                 var scaleTo = elem.getAttribute("data-animate-to-scale");
+                var scaleXTo = elem.getAttribute("data-animate-to-scalex");
+                var scaleYTo = elem.getAttribute("data-animate-to-scaleY");
     
                 if (from.includes("top")) {
                     from = from.replace("top-", "");
@@ -139,6 +151,7 @@
                     var diff;
                     var value;
                     var presentage = past / sdiff * 100;
+                    var transformProperty = "";
     
                     if (leftTo != null) {
                         diff = leftTo - leftFrom;
@@ -175,29 +188,84 @@
                         value = eval(value);
                         elem.style.opacity = value;
                     }
+                    if (borderRadiusTo != null) {
+                        var hasPre = false;
+                        if (borderRadiusTo.includes("%")) {
+                            borderRadiusTo = borderRadiusTo.replace("%", "");
+                            borderRadiusFrom = borderRadiusFrom.replace("%", "");
+                            hasPre = true;
+                        }
+                        diff = borderRadiusTo - borderRadiusFrom;
+                        value = presentage / 100 * diff;
+                        value = value + "+" + borderRadiusFrom;
+                        value = eval(value);
+                        if (hasPre == true) {
+                            elem.style.borderRadius = value + "%";
+                        } else {
+                            elem.style.borderRadius = value + "px";
+                        }
+                    }
+                    // The transform Property --- >>>
                     if (rotateTo != null) {
                         diff = rotateTo - rotateFrom;
                         value = presentage / 100 * diff;
                         value = value + "+" + rotateFrom;
                         value = eval(value);
-                        elem.style.transform = "rotate(" + value + "deg)";
+                        transformProperty += "rotate(" + value + "deg) ";
+                    }
+                    if (scaleTo != null) {
+                        diff = scaleTo - scaleFrom;
+                        value = presentage / 100 * diff;
+                        value = value + "+" + scaleFrom;
+                        value = eval(value);
+                        transformProperty += "scale(" + value + ") ";
+                    }
+                    if (scaleXTo != null) {
+                        diff = scaleXTo - scaleXFrom;
+                        value = presentage / 100 * diff;
+                        value = value + "+" + scaleXFrom;
+                        value = eval(value);
+                        transformProperty += "scaleX(" + value + ") ";
+                    }
+                    if (scaleYTo != null) {
+                        diff = scaleYTo - scaleYFrom;
+                        value = presentage / 100 * diff;
+                        value = value + "+" + scaleYFrom;
+                        value = eval(value);
+                        transformProperty += "scaleY(" + value + ") ";
+                    }
+
+                    if (transformProperty != "") {
+                        elem.style.transform = transformProperty;
                     }
                 } else if (fin > to) {
+                    transformProperty = "";
                     if (leftFrom != null) {elem.style.left = leftFrom}
                     if (rightFrom != null) {elem.style.right = rightFrom}
                     if (topFrom != null) {elem.style.top = topFrom}
                     if (bottomFrom != null) {elem.style.bottom = bottomFrom}
                     if (opacityFrom != null) {elem.style.opacity = opacityFrom}
-                    if (rotateFrom != null) {elem.style.transform = "rotate(" + rotateFrom + "deg)"}
-                    if (scaleFrom != null) {elem.style.transform = "scale(" + scaleFrom + ")"}
+                    if (borderRadiusFrom != null) {elem.style.borderRadius = borderRadiusFrom}
+                    // The transform Property --- >>>
+                    if (rotateFrom != null) {transformProperty += "rotate(" + rotateFrom + "deg) "}
+                    if (scaleFrom != null) {transformProperty += "scale(" + scaleFrom + ") "}
+                    if (scaleXFrom != null) {transformProperty += "scaleX(" + scaleXFrom + ") "}
+                    if (scaleYFrom != null) {transformProperty += "scaleY(" + scaleYFrom + ") "}
+                    if (transformProperty != "") {elem.style.transform = transformProperty;}
                 } else if (fin < from) {
+                    transformProperty = "";
                     if (leftTo != null) {elem.style.left = leftTo}
                     if (rightTo != null) {elem.style.right = rightTo}
                     if (topTo != null) {elem.style.top = topTo}
                     if (bottomTo != null) {elem.style.bottom = bottomTo}
                     if (opacityTo != null) {elem.style.opacity = opacityTo}
-                    if (rotateTo != null) {elem.style.transform = "rotate(" + rotateTo + "deg)"}
-                    if (scaleTo != null) {elem.style.transform = "scale(" + scaleTo + ")"}
+                    if (borderRadiusTo != null) {elem.style.borderRadius = borderRadiusTo}
+                    // The transform Property --- >>>
+                    if (rotateTo != null) {transformProperty += "rotate(" + rotateTo + "deg)"}
+                    if (scaleTo != null) {transformProperty += "scale(" + scaleTo + ")"}
+                    if (scaleXTo != null) {transformProperty += "scaleX(" + scaleXTo + ") "}
+                    if (scaleYTo != null) {transformProperty += "scaleY(" + scaleYTo + ") "}
+                    if (transformProperty != "") {elem.style.transform = transformProperty;}
                 }
     
                 i = i + 1;
@@ -207,3 +275,5 @@
     })
 
 /* Hope you enjoy it... :D :P (^_^) */
+
+/////////////////////// Made in Sri Lanka \\\\\\\\\\\\\\\\\\\\\\
