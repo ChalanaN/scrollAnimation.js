@@ -41,7 +41,7 @@ To use scrollAnimate.js complied with page scroll add the class of `scrollAnimat
 | `data-animate-to-style=""` | Required. Specifies to what style the animation needs to end. Write this in css. |
 | `data-animate-style=""` | Optional. Put additional stylings to this. Since the style attribute is overridden by this plugin you can add your styles here. |
 
-# Some things important
+#### Some things important
 
 - **The properties in both  `data-animate-from-style` and  `data-animate-to-style` must be in same order**
 - **The units in a property of both  `data-animate-from-style` and  `data-animate-to-style` must be the same**
