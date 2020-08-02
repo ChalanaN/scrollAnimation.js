@@ -3,13 +3,16 @@ A JavaScript plugin that can animate on scroll.
 
 ## What is scrollAnimation.js?
 
-scrollAniation.js is a JavaScript plugin to animate element on scroll creted by [ChalanaN]. It dosen't matter if you are a beginner. You can add a class to an element if it's in view or at a exact height from view. And you can animate an element complied with the page scroll.
+scrollAniation.js is a JavaScript plugin to animate element on scroll creted by [ChalanaN]. It dosen't matter if you are a beginner. You can add a class to an element if it's in view or at a exact height from view. And you can animate an element complied with the page scroll with unlimited properties.
 
 ## Installation
 
 Add scrollAnimation.js to your project by adding this script tag to the end of your file's body
 ```sh
-<script src="https://chalanan.tk/scrollAnimation.js"></script>
+<script src="http://code.chalanan.tk/scrollanimation.js/scrollAnimation.js"></script>
+```
+```sh
+<script src="http://code.chalanan.tk/scrollanimation.js/scrollAnimation.min.js"></script>
 ```
 
 ## How to use?
@@ -35,20 +38,7 @@ To use scrollAnimate.js complied with page scroll add the class of `scrollAnimat
 | ------ | ------ |
 | `data-animate-from=""` | Required. Specifies at what point the animation needs to start. The values are `top-[the value from the top of view]`, `center-[the value from the center of view]` and `bottom-[the value from the bottom of view]` |
 | `data-animate-to=""` | Required. Specifies at what point the animation needs to end. The values are `top-[the value from the top of view]`, `center-[the value from the center of view]` and `bottom-[the value from the bottom of view]` |
-
-Use these attributes to control the animation. All these attributes are optional. **Remember that you need to add two attribiutes to animate the element. One is for the starting value and other is for the ending value**.
-
-| Attribute | Description | Attribute | Description |
-| ------ | ------ | ------ | ------ |
-| `data-animate-from-left=""` | the starting value for `left` property. | `data-animate-to-left=""` | the final value for `left` property. |
-| `data-animate-from-right=""` | the starting value for `right` property. | `data-animate-to-right=""` | the final value for `right` property. |
-| `data-animate-from-top=""` | the starting value for `top` property. | `data-animate-to-top=""` | the final value for `top` property. |
-| `data-animate-from-bottom=""` | the starting value for `bottom` property. | `data-animate-to-bottom=""` | the final value for `bottom` property. |
-| `data-animate-from-opacity=""` | the starting value for `opacity` property. | `data-animate-to-opacity=""` | the final value for `opacity` property. |
-| `data-animate-from-border-radius=""` | the starting value for `border-radius` property. | `data-animate-to-border-radius=""` | the final value for `border-radius` property. |
-| `data-animate-from-rotate=""` | the starting value for `transform:rotate()` property. | `data-animate-to-rotate=""` | the final value for `transform:rotate()` property. |
-| `data-animate-from-scale=""` | the starting value for `transform:scale()` property. | `data-animate-to-scale=""` | the final value for `transform:scale()` property. |
-| `data-animate-from-scalex=""` | the starting value for `transform:scalex()` property. | `data-animate-to-scalex=""` | the final value for `transform:scalex()` property. |
-| `data-animate-from-scaley=""` | the starting value for `transform:scaley()` property. | `data-animate-to-scaley=""` | the final value for `transform:scaley()` property. |
+| `data-animate-from-style=""` | Required. Specifies from what style the animation needs to start. Write this in css. But put `,` to separate things inside brackets and **don't put spaces inside brackets** |
+| `data-animate-to-style=""` | Required. Specifies to what style the animation needs to end. Write this in css. But like previous put `,` to separate things inside brackets and **don't put spaces inside brackets** |
 
 [ChalanaN]: <https://chalanan.tk>
