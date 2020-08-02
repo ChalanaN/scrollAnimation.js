@@ -8,53 +8,104 @@
                                > Pinterest @ Chalana Nethsara;
     Free for non-commercial use :) */
 
+(function () {
+    var animate = document.querySelectorAll('.animate');
+    var scrollAnimate = document.querySelectorAll('.scrollAnimate');
+    var scrollAnimateE = [];
+    var scrollAnimateContainer = document.querySelectorAll('.scrollAnimateContainer');
+    var isSticky = [];
+    var i = 0;
+
+    scrollAnimate.forEach(function (e) {
+        scrollAnimateE.push(e);
+    })
+
+    if (scrollAnimateContainer != null) {
+        scrollAnimateContainer.forEach(function () {
+            var sticky = scrollAnimateContainer[i].getAttribute("data-animate-sticky");
+
+            if (sticky == "yes") {
+                var stickyContainer = document.createElement("div");
+                var parentelement = scrollAnimateContainer[i].parentElement;
+                var sac = scrollAnimateContainer[i];
+                parentelement.insertBefore(stickyContainer, sac);
+                stickyContainer.appendChild(scrollAnimateContainer[i]);
+
+                sac.style.position = "sticky";
+                sac.style.top = 0;
+
+                var n = 0;
+                var widthOfsc = 0;
+
+                scrollAnimateContainer[i].childNodes.forEach(function (e) {
+                    n = 0;
+                    scrollAnimate.forEach(function () {
+                        if (scrollAnimate[n] == e) {
+                            scrollAnimateE[n] = scrollAnimateContainer[i].parentElement;
+
+                            var to = scrollAnimate[n].getAttribute("data-animate-to");
+
+                            if (to.includes("top")) {
+                                to = to.replace("top-", "");
+                            } else if (to.includes("center")) {
+                                to = window.innerHeight / 2 + "+" + to.replace("center-", "");
+                                to = eval(to);
+                            } else if (to.includes("bottom")) {
+                                to = window.innerHeight - to.replace("bottom-", "");
+                            }
+                            if (to <= widthOfsc) {
+                                widthOfsc = Number(to);
+                            }
+                        }
+                        n++;
+                    })
+                })
+                widthOfsc = widthOfsc.toString();
+                widthOfsc = widthOfsc.replace("-", "");
+                widthOfsc = eval(widthOfsc + "+" + scrollAnimateContainer[i].offsetHeight);
+                stickyContainer.style.height = widthOfsc;
+
+                if (sac.getAttribute("data-animate-style") != null) {
+                    sac.setAttribute("data-animate-style", sac.getAttribute("data-animate-style") + "position: sticky;top: 0;");
+                } else {
+                    sac.setAttribute("data-animate-style", "position: sticky;top: 0;");
+                }
+            }
+            i++
+        })
+    }
+
     window.addEventListener('scroll', function () {
-        var animate = document.querySelectorAll('.animate');
-        var scrollAnimate = document.querySelectorAll('.scrollAnimate');
-        var i = 0;
-    
+        i = 0;
         if (animate != null) {
             animate.forEach(function () {
                 var scroll = animate[i].getAttribute("data-animate-on");
                 var time = animate[i].getAttribute("data-animate-time");
                 var repeat = animate[i].getAttribute("data-animate-repeat");
-                var scrollN = animate[i].getAttribute("data-animate-on-n");
                 var scroll1 = 0;
                 var scroll2 = window.innerHeight;
-    
-                if (time == null) {
-                    time = "0.35s";
+
+                if (scroll.includes("top-")) {
+                    scroll = scroll.replace("top-", "");
+                } else if (scroll.includes("center-")) {
+                    scroll = window.innerHeight / 2 + "+" + scroll.replace("center-", "");
+                    scroll = eval(scroll);
+                } else if (scroll.includes("bottom-")) {
+                    scroll = window.innerHeight - scroll.replace("bottom-", "");
+                } else if (scroll.includes("view-")) {
+                    scroll = scroll.replace("view-", "");
+                    scroll1 = scroll1 + '+' + scroll;
+                    scroll2 = scroll2 + '-' + scroll;
+                    scroll1 = eval(scroll1);
+                    scroll2 = eval(scroll2);
+                    scroll = "view";
                 }
-    
-                if (scroll == 'top') {
-                    scroll = 0;
-                } else if (scroll == 'center') {
-                    scroll = window.innerHeight / 2;
-                } else if (scroll == 'bottom') {
-                    scroll = window.innerHeight;
-                }
-    
-                let numP = scroll + '+' + scrollN;
-                let numM = scroll + '-' + scrollN;
-                let numP1 = scroll1 + '+' + scrollN;
-                let numM1 = scroll2 + '-' + scrollN;
-    
-                if (scrollN != null) {
-                    if (scroll == window.innerHeight) {
-                        scroll = eval(numM);
-                    } else if (scroll == 'view') {
-                        scroll1 = eval(numP1);
-                        scroll2 = eval(numM1);
-                    } else {
-                        scroll = eval(numP);
-                    }
-                }
-    
+
                 var fin = eval(animate[i].offsetTop + animate[i].parentElement.offsetTop - window.scrollY);
-    
+
                 if (scroll == 'view') {
                     if (fin >= scroll1 && fin <= scroll2) {
-                        if (time != "no") {
+                        if (time != null) {
                             animate[i].style.transition = time;
                         }
                         animate[i].classList.add('after');
@@ -63,7 +114,7 @@
                     }
                 } else {
                     if (fin <= scroll) {
-                        if (time != "no") {
+                        if (time != null) {
                             animate[i].style.transition = time;
                         }
                         animate[i].classList.add('after');
@@ -71,7 +122,7 @@
                         animate[i].classList.remove('after');
                     }
                 }
-    
+
                 i = i + 1;
             })
             i = 0;
@@ -79,52 +130,31 @@
         if (scrollAnimate != null) {
             scrollAnimate.forEach(function () {
                 var elem = scrollAnimate[i];
-    
+
                 var from = elem.getAttribute("data-animate-from");
                 var to = elem.getAttribute("data-animate-to");
-                var repeat = elem.getAttribute("data-animate-repeat");
-    
-                var leftFrom = elem.getAttribute("data-animate-from-left");
-                var rightFrom = elem.getAttribute("data-animate-from-right");
-                var topFrom = elem.getAttribute("data-animate-from-top");
-                var bottomFrom = elem.getAttribute("data-animate-from-bottom");
-                var opacityFrom = elem.getAttribute("data-animate-from-opacity");
-                var borderRadiusFrom = elem.getAttribute("data-animate-from-border-radius");
-                // The transform property --- >>>
-                var rotateFrom = elem.getAttribute("data-animate-from-rotate");
-                var scaleFrom = elem.getAttribute("data-animate-from-scale");
-                var scaleXFrom = elem.getAttribute("data-animate-from-scalex");
-                var scaleYFrom = elem.getAttribute("data-animate-from-scaleY");
-    
-                if (leftFrom != null && leftFrom.includes("%")) {
-                    leftFrom = leftFrom.replace("%", "");
-                    leftFrom = window.innerWidth / 100 * leftFrom;
-                }
-                if (rightFrom != null && rightFrom.includes("%")) {
-                    rightFrom = rightFrom.replace("%", "");
-                    rightFrom = window.innerWidth / 100 * rightFrom;
-                }
-                if (topFrom != null && topFrom.includes("%")) {
-                    topFrom = topFrom.replace("%", "");
-                    topFrom = window.innerHeight / 100 * topFrom;
-                }
-                if (bottomFrom != null && leftFrom.includes("%")) {
-                    bottomFrom = bottomFrom.replace("%", "");
-                    bottomFrom = window.innerHeight / 100 * bottomFrom;
-                }
-    
-                var leftTo = elem.getAttribute("data-animate-to-left");
-                var rightTo = elem.getAttribute("data-animate-to-right");
-                var topTo = elem.getAttribute("data-animate-to-top");
-                var bottomTo = elem.getAttribute("data-animate-to-bottom");
-                var opacityTo = elem.getAttribute("data-animate-to-opacity");
-                var borderRadiusTo = elem.getAttribute("data-animate-to-border-radius");
-                // The transform property --- >>>
-                var rotateTo = elem.getAttribute("data-animate-to-rotate");
-                var scaleTo = elem.getAttribute("data-animate-to-scale");
-                var scaleXTo = elem.getAttribute("data-animate-to-scalex");
-                var scaleYTo = elem.getAttribute("data-animate-to-scaleY");
-    
+                var styleFrom = elem.getAttribute("data-animate-from-style");
+                var styleTo = elem.getAttribute("data-animate-to-style");
+                var additionalStyle = elem.getAttribute("data-animate-style");
+
+                styleFrom = styleFrom.trim();
+                styleTo = styleTo.trim();
+
+                styleFrom = styleFrom.split(";");
+                styleTo = styleTo.split(";");
+
+                styleFrom.pop();
+                styleTo.pop();
+
+                var n = 0;
+
+                styleFrom.forEach(function () {
+                    styleFrom[n] = styleFrom[n].trim();
+                    styleTo[n] = styleTo[n].trim();
+
+                    n++;
+                })
+
                 if (from.includes("top")) {
                     from = from.replace("top-", "");
                 } else if (from.includes("center")) {
@@ -133,7 +163,7 @@
                 } else if (from.includes("bottom")) {
                     from = window.innerHeight - from.replace("bottom-", "");
                 }
-    
+
                 if (to.includes("top")) {
                     to = to.replace("top-", "");
                 } else if (to.includes("center")) {
@@ -142,137 +172,133 @@
                 } else if (to.includes("bottom")) {
                     to = window.innerHeight - to.replace("bottom-", "");
                 }
-    
-                var fin = eval(elem.offsetTop + elem.parentElement.offsetTop - window.scrollY);
-    
+
+                var fin;
+
+                if (window.getComputedStyle(scrollAnimateE[i].parentElement).position == "relative") {
+                    fin = eval(scrollAnimateE[i].offsetTop + elem.parentElement.offsetTop - window.scrollY);
+                } else {
+                    fin = eval(scrollAnimateE[i].offsetTop - window.scrollY);
+                }
+
                 if (fin <= from && fin >= to) {
                     var past = fin - from;
                     var sdiff = to - from;
                     var diff;
                     var value;
                     var presentage = past / sdiff * 100;
-                    var transformProperty = "";
-    
-                    if (leftTo != null) {
-                        diff = leftTo - leftFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + leftFrom;
-                        value = eval(value);
-                        elem.style.left = value;
-                    }
-                    if (rightTo != null) {
-                        diff = rightTo - rightFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + rightFrom;
-                        value = eval(value);
-                        elem.style.right = value;
-                    }
-                    if (topTo != null) {
-                        diff = topTo - topFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + topFrom;
-                        value = eval(value);
-                        elem.style.top = value;
-                    }
-                    if (bottomTo != null) {
-                        diff = bottomTo - bottomFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + bottomFrom;
-                        value = eval(value);
-                        elem.style.bottom = value;
-                    }
-                    if (opacityTo != null) {
-                        diff = opacityTo - opacityFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + opacityFrom;
-                        value = eval(value);
-                        elem.style.opacity = value;
-                    }
-                    if (borderRadiusTo != null) {
-                        var hasPre = false;
-                        if (borderRadiusTo.includes("%")) {
-                            borderRadiusTo = borderRadiusTo.replace("%", "");
-                            borderRadiusFrom = borderRadiusFrom.replace("%", "");
-                            hasPre = true;
-                        }
-                        diff = borderRadiusTo - borderRadiusFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + borderRadiusFrom;
-                        value = eval(value);
-                        if (hasPre == true) {
-                            elem.style.borderRadius = value + "%";
-                        } else {
-                            elem.style.borderRadius = value + "px";
-                        }
-                    }
-                    // The transform Property --- >>>
-                    if (rotateTo != null) {
-                        diff = rotateTo - rotateFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + rotateFrom;
-                        value = eval(value);
-                        transformProperty += "rotate(" + value + "deg) ";
-                    }
-                    if (scaleTo != null) {
-                        diff = scaleTo - scaleFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + scaleFrom;
-                        value = eval(value);
-                        transformProperty += "scale(" + value + ") ";
-                    }
-                    if (scaleXTo != null) {
-                        diff = scaleXTo - scaleXFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + scaleXFrom;
-                        value = eval(value);
-                        transformProperty += "scaleX(" + value + ") ";
-                    }
-                    if (scaleYTo != null) {
-                        diff = scaleYTo - scaleYFrom;
-                        value = presentage / 100 * diff;
-                        value = value + "+" + scaleYFrom;
-                        value = eval(value);
-                        transformProperty += "scaleY(" + value + ") ";
+                    var finalStyle = "";
+                    var num = 0;
+
+                    styleFrom.forEach(function () {
+                        var From = styleFrom[num];
+                        var To = styleTo[num];
+                        n = 0;
+
+                        var property = styleFrom[num].split(":")[0];
+                        var propertiesFrom = styleFrom[num].split(":")[1];
+                        var propertiesTo = styleTo[num].split(":")[1];
+                        propertiesFrom = propertiesFrom.trim();
+                        propertiesTo = propertiesTo.trim();
+                        propertiesFrom = propertiesFrom.split(" ");
+                        propertiesTo = propertiesTo.split(" ");
+
+                        finalStyle += property + ":";
+
+                        propertiesFrom.forEach(function () {
+                            var func = "";
+
+                            if (propertiesFrom[n].includes("(") && propertiesFrom[n].includes(")")) {
+                                func = propertiesFrom[n].split("(")[0];
+                                propertiesFrom[n] = propertiesFrom[n].replace(func, "");
+                                propertiesFrom[n] = propertiesFrom[n].replace("(", "");
+                                propertiesFrom[n] = propertiesFrom[n].replace(")", "");
+                                propertiesTo[n] = propertiesTo[n].replace(func, "");
+                                propertiesTo[n] = propertiesTo[n].replace("(", "");
+                                propertiesTo[n] = propertiesTo[n].replace(")", "");
+                            }
+
+
+                            if (func == "") {
+                                var unit = getText(propertiesFrom[n]);
+                                unit = unit.replace(/\s/g, '');
+                                From = propertiesFrom[n].replace(unit, "");
+                                To = propertiesTo[n].replace(unit, "");
+                                From = From.trim();
+                                To = To.trim();
+
+                                diff = To - From;
+                                value = presentage / 100 * diff;
+                                value = value + " + " + From;
+                                value = eval(value);
+                                finalStyle += value + unit + " ";
+                            } else {
+                                var funcFrom = propertiesFrom[n].split(",");
+                                var funcTo = propertiesTo[n].split(",");
+
+                                var numb = 0;
+
+                                finalStyle += func + "(";
+
+                                funcFrom.forEach(function () {
+                                    var unit = getText(funcFrom[numb]);
+                                    unit = unit.replace(/\s/g, '');
+                                    From = funcFrom[numb].replace(unit, "");
+                                    To = funcTo[numb].replace(unit, "");
+                                    From = From.trim();
+                                    To = To.trim();
+
+                                    diff = To - From;
+                                    value = presentage / 100 * diff;
+                                    value = value + " + " + From;
+                                    value = eval(value);
+
+                                    if (numb == funcFrom.length - 1) {
+                                        finalStyle += value + unit;
+                                    } else {
+                                        finalStyle += value + unit + ",";
+                                    }
+
+                                    numb++;
+                                })
+                                finalStyle += ") ";
+                            }
+
+                            n++;
+                        })
+                        finalStyle += ";";
+
+                        num = num + 1;
+                    })
+
+                    if (additionalStyle != null) {
+                        elem.style = additionalStyle + finalStyle;
+                    } else {
+                        elem.style = finalStyle;
                     }
 
-                    if (transformProperty != "") {
-                        elem.style.transform = transformProperty;
-                    }
                 } else if (fin > to) {
-                    transformProperty = "";
-                    if (leftFrom != null) {elem.style.left = leftFrom}
-                    if (rightFrom != null) {elem.style.right = rightFrom}
-                    if (topFrom != null) {elem.style.top = topFrom}
-                    if (bottomFrom != null) {elem.style.bottom = bottomFrom}
-                    if (opacityFrom != null) {elem.style.opacity = opacityFrom}
-                    if (borderRadiusFrom != null) {elem.style.borderRadius = borderRadiusFrom}
-                    // The transform Property --- >>>
-                    if (rotateFrom != null) {transformProperty += "rotate(" + rotateFrom + "deg) "}
-                    if (scaleFrom != null) {transformProperty += "scale(" + scaleFrom + ") "}
-                    if (scaleXFrom != null) {transformProperty += "scaleX(" + scaleXFrom + ") "}
-                    if (scaleYFrom != null) {transformProperty += "scaleY(" + scaleYFrom + ") "}
-                    if (transformProperty != "") {elem.style.transform = transformProperty;}
+                    if (additionalStyle != null) {
+                        elem.style = additionalStyle + styleFrom.join(";") + ";";
+                    } else {
+                        elem.style = styleFrom.join(";") + ";";
+                    }
                 } else if (fin < from) {
-                    transformProperty = "";
-                    if (leftTo != null) {elem.style.left = leftTo}
-                    if (rightTo != null) {elem.style.right = rightTo}
-                    if (topTo != null) {elem.style.top = topTo}
-                    if (bottomTo != null) {elem.style.bottom = bottomTo}
-                    if (opacityTo != null) {elem.style.opacity = opacityTo}
-                    if (borderRadiusTo != null) {elem.style.borderRadius = borderRadiusTo}
-                    // The transform Property --- >>>
-                    if (rotateTo != null) {transformProperty += "rotate(" + rotateTo + "deg)"}
-                    if (scaleTo != null) {transformProperty += "scale(" + scaleTo + ")"}
-                    if (scaleXTo != null) {transformProperty += "scaleX(" + scaleXTo + ") "}
-                    if (scaleYTo != null) {transformProperty += "scaleY(" + scaleYTo + ") "}
-                    if (transformProperty != "") {elem.style.transform = transformProperty;}
+                    if (additionalStyle != null) {
+                        elem.style = additionalStyle + styleTo.join(";") + ";";
+                    } else {
+                        elem.style = styleTo.join(";") + ";";
+                    }
                 }
-    
                 i = i + 1;
             })
             i = 0;
-        }
+        }    
     })
+    function getText(txt) {
+        return txt.replace(/0|1|2|3|4|5|6|7|8|9|-/g, "");
+    }
+}) ()
 
 /* Hope you enjoy it... :D :P (^_^) */
 
