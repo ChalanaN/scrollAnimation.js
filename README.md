@@ -9,10 +9,10 @@ scrollAniation.js is a JavaScript plugin to animate element on scroll creted by 
 
 Add scrollAnimation.js to your project by adding any of these script tag to the end of your file's body
 ```sh
-<script src="http://code.chalanan.tk/scrollanimation.js/scrollAnimation.js"></script>
+<script src="https://code.chalanan.tk/scrollAnimation.js/scrollAnimation.js"></script>
 ```
 ```sh
-<script src="http://code.chalanan.tk/scrollanimation.js/scrollAnimation.min.js"></script>
+<script src="https://code.chalanan.tk/scrollAnimation.js/scrollAnimation.min.js"></script>
 ```
 
 ## How to use?
