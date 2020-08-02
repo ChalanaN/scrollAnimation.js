@@ -25,10 +25,9 @@ To use scrollAnimation.js to add a class of `after` to an element if it's in vie
 
 | Attribute | Description |
 | ------ | ------ |
-| `data-animate-on=""` | Required. Specifies at what point the element needs to add the class. The valid values are `top`(add class at the top of view), `bottom`(add class at the bottom of view) and `view`(add class at the top of view) |
-| `data-animate-on-n=""` | Optional. Specifies the height from the `data-animate-on` attribute value (if you are using the value `view` this is the height from both sides of view) |
+| `data-animate-on=""` | Required. Specifies at what point the element needs to add the class. The valid values are `top-[the value from the top of view]`(add class at the top of view), `bottom-[the value from the bottom of view]`(add class at the bottom of view), `center-[the value from the center of view]`(add class at the center of view) and `view-[the value from the bottom and top of view]`(add class on enter the view) |
 | `data-animate-repeat=""` | Optional. Specifies if the animation needs to be repeat (that means remove the class `after` from the element). Valid values are `yes` or `no`. Default value is `no`. |
-| `data-animate-time=""` | Optional. Specifies the transition property of the element. Default value is `0.35s` |
+| `data-animate-time=""` | Optional. Specifies the transition property of the element. |
 
 ### Usage for animating an element complied with the page scroll
 
@@ -38,7 +37,14 @@ To use scrollAnimate.js complied with page scroll add the class of `scrollAnimat
 | ------ | ------ |
 | `data-animate-from=""` | Required. Specifies at what point the animation needs to start. The values are `top-[the value from the top of view]`, `center-[the value from the center of view]` and `bottom-[the value from the bottom of view]` |
 | `data-animate-to=""` | Required. Specifies at what point the animation needs to end. The values are `top-[the value from the top of view]`, `center-[the value from the center of view]` and `bottom-[the value from the bottom of view]` |
-| `data-animate-from-style=""` | Required. Specifies from what style the animation needs to start. Write this in css. But put `,` to separate things inside brackets and **don't put spaces inside brackets** |
-| `data-animate-to-style=""` | Required. Specifies to what style the animation needs to end. Write this in css. But like previous put `,` to separate things inside brackets and **don't put spaces inside brackets** |
+| `data-animate-from-style=""` | Required. Specifies from what style the animation needs to start. Write this in css. |
+| `data-animate-to-style=""` | Required. Specifies to what style the animation needs to end. Write this in css. |
+| `data-animate-style=""` | Optional. Put additional stylings to this. Since the style attribute is overridden by this plugin you can add your styles here. |
+
+# Some things important
+
+- **The properties in both  `data-animate-from-style` and  `data-animate-to-style` must be in same order**
+- **The units in a property of both  `data-animate-from-style` and  `data-animate-to-style` must be the same**
+- **Put `,` to separate things inside brackets and don't put spaces inside brackets**
 
 [ChalanaN]: <https://chalanan.tk>
