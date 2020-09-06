@@ -47,4 +47,7 @@ To use scrollAnimate.js complied with page scroll add the class of `scrollAnimat
 - **The units in a property of both  `data-animate-from-style` and  `data-animate-to-style` must be the same**
 - **Put `,` to separate things inside brackets and don't put spaces inside brackets**
 
+Live demo avaiable at [code.chalanan.tk/scrollAnimation.js]
+
 [ChalanaN]: <https://chalanan.tk>
+[code.chalanan.tk/scrollAnimation.js]: <https://code.chalanan.tk/scrollAnimation.js/>
